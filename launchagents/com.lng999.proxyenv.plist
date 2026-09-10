@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.lng999.proxyenv</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/sh</string>
+        <string>-c</string>
+        <string>for v in HTTPS_PROXY HTTP_PROXY https_proxy http_proxy; do launchctl setenv $v http://127.0.0.1:8080; done; for v in NO_PROXY no_proxy; do launchctl setenv $v "localhost,127.0.0.1,*.local"; done</string>
+    </array>
+    <key>RunAtLoad</key><true/>
+</dict>
+</plist>

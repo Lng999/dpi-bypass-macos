@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.lng999.spoofdpi</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>__HOME__/.local/bin/spoofdpi</string>
+        <string>--no-tui</string>
+        <string>--app-mode</string><string>http</string>
+        <string>--listen-addr</string><string>127.0.0.1:8080</string>
+        <string>--dns-mode</string><string>https</string>
+        <string>--dns-https-url</string><string>https://1.1.1.1/dns-query</string>
+        <string>--https-split-mode</string><string>random</string>
+        <string>--https-chunk-size</string><string>2</string>
+        <string>--log-level</string><string>error</string>
+    </array>
+    <key>RunAtLoad</key><true/>
+    <key>KeepAlive</key><true/>
+    <key>StandardErrorPath</key>
+    <string>__HOME__/Library/Logs/spoofdpi.log</string>
+</dict>
+</plist>

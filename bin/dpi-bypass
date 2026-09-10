@@ -1,0 +1,29 @@
+#!/bin/bash
+# Discord/DPI engel asma - ac/kapa
+SVC=$(networksetup -listnetworkserviceorder | grep -oE '(Wi-Fi|Ethernet.*)$' | head -1)
+[ -z "$SVC" ] && SVC="Wi-Fi"
+case "$1" in
+  on)
+    launchctl load ~/Library/LaunchAgents/com.lng999.spoofdpi.plist 2>/dev/null
+    launchctl load ~/Library/LaunchAgents/com.lng999.proxyenv.plist 2>/dev/null
+    networksetup -setwebproxy "$SVC" 127.0.0.1 8080
+    networksetup -setsecurewebproxy "$SVC" 127.0.0.1 8080
+    echo "DPI bypass ACIK ($SVC)"
+    ;;
+  off)
+    networksetup -setwebproxystate "$SVC" off
+    networksetup -setsecurewebproxystate "$SVC" off
+    for v in HTTPS_PROXY HTTP_PROXY https_proxy http_proxy NO_PROXY no_proxy; do launchctl unsetenv $v; done
+    launchctl unload ~/Library/LaunchAgents/com.lng999.proxyenv.plist 2>/dev/null
+    launchctl unload ~/Library/LaunchAgents/com.lng999.spoofdpi.plist 2>/dev/null
+    echo "DPI bypass KAPALI ($SVC)"
+    ;;
+  status|"")
+    pgrep -f spoofdpi >/dev/null && echo "spoofdpi: calisiyor (PID $(pgrep -f spoofdpi | head -1))" || echo "spoofdpi: durmus"
+    echo "proxy: $(networksetup -getsecurewebproxy "$SVC" | head -1 | awk '{print $2}')"
+    echo "env:   $(launchctl getenv HTTPS_PROXY)"
+    printf "test:  discord.com -> "
+    curl -sI --max-time 12 -x http://127.0.0.1:8080 https://discord.com/ -o /dev/null -w 'HTTP %{http_code}\n' 2>&1
+    ;;
+  *) echo "kullanim: dpi-bypass [on|off|status]" ;;
+esac

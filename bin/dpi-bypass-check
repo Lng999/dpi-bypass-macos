@@ -1,0 +1,11 @@
+#!/bin/bash
+# Sadece durum bildirir, hicbir sey degistirmez
+export PATH="$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+SVC="Wi-Fi"
+if pgrep -f spoofdpi >/dev/null && [ "$(networksetup -getsecurewebproxy "$SVC" | head -1 | awk '{print $2}')" = "Yes" ]; then
+  S=ACIK
+else
+  S=KAPALI
+fi
+R=$(curl -sI --max-time 10 -x http://127.0.0.1:8080 https://discord.com/ -o /dev/null -w '%{http_code}' 2>/dev/null)
+echo "$S|$R"

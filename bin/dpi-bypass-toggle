@@ -1,0 +1,14 @@
+#!/bin/bash
+export PATH="$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+SVC="Wi-Fi"
+running() { pgrep -f spoofdpi >/dev/null; }
+proxy_on() { [ "$(networksetup -getsecurewebproxy "$SVC" | head -1 | awk '{print $2}')" = "Yes" ]; }
+if running && proxy_on; then
+  dpi-bypass off >/dev/null 2>&1
+  echo "KAPALI"
+else
+  dpi-bypass on >/dev/null 2>&1
+  sleep 3
+  R=$(curl -sI --max-time 12 -x http://127.0.0.1:8080 https://discord.com/ -o /dev/null -w '%{http_code}' 2>/dev/null)
+  echo "ACIK|$R"
+fi
