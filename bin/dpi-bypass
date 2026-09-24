@@ -1,5 +1,7 @@
 #!/bin/bash
 # Discord/DPI engel asma - ac/kapa
+# Proxy'yi atlayip dogrudan baglanacak adresler (DPI bypass'ta calismayan siteler)
+BYPASS=("*.local" "169.254/16" "istanbul.edu.tr" "*.istanbul.edu.tr")
 SVC=$(networksetup -listnetworkserviceorder | grep -oE '(Wi-Fi|Ethernet.*)$' | head -1)
 [ -z "$SVC" ] && SVC="Wi-Fi"
 case "$1" in
@@ -8,6 +10,7 @@ case "$1" in
     launchctl load ~/Library/LaunchAgents/com.lng999.proxyenv.plist 2>/dev/null
     networksetup -setwebproxy "$SVC" 127.0.0.1 8080
     networksetup -setsecurewebproxy "$SVC" 127.0.0.1 8080
+    networksetup -setproxybypassdomains "$SVC" "${BYPASS[@]}"
     echo "DPI bypass ACIK ($SVC)"
     ;;
   off)

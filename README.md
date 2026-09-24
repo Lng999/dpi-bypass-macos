@@ -59,6 +59,9 @@ Ya da `/Applications/DPI Bypass.app` — simgeye tikla, durumu gor, butondan ac/
 - Ag servisi olarak `Wi-Fi` varsayilir. Ethernet kullaniyorsan scriptlerdeki `SVC="Wi-Fi"` satirini degistir.
 - Canli test hedefi `discord.com`. Baska site test etmek istersen scriptlerde degistir.
 - Proxy'yi kapatmadan Wi-Fi degistirirsen internet gitmis gibi gorunebilir — `dpi-bypass off` cozer.
+- Bazi siteler parcalanmis ClientHello'ya cevap vermez (ornegin Istanbul Universitesi AKSIS).
+  Bunlar proxy'yi atlar: `bin/dpi-bypass` icindeki `BYPASS` listesi (sistem proxy istisnalari)
+  ve `com.lng999.proxyenv.plist` icindeki `NO_PROXY`. Yeni site eklemek icin ikisine de ekle.
 - Loglar: `~/Library/Logs/spoofdpi.log`
 
 ## Kaldirma
